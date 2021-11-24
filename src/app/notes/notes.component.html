@@ -1,0 +1,54 @@
+<div class="note-container">
+    <div class="note" *ngFor="let note of notes; let i = index" (click)="editNote(note)">
+        <p><span>Date: </span>{{note.date | date}}</p>
+        <p><span>Weight:</span> {{note.weight}} lbs</p>
+        <p><span>Blood Pressure:</span> {{note.bloodPressure}}</p>
+        <p><span>Exercise:</span> {{note.exercise}}</p>
+        <p><span>Symptoms:</span> {{note.symptoms}}</p>
+    </div>
+</div>
+
+<form class="form" autocomplete="off" #noteForm="ngForm" (ngSubmit)="submitForm(noteForm)" *ngIf="editing || creating">
+    <div class="mb-3 form-div">
+        <label for="date" class="form-label">Date</label>
+        <div class="alert alert-danger" *ngIf="dateModel.invalid && formSubmitted" role="alert">
+            You must enter a date.
+        </div>
+        <input type="date" class="form-control" id="date" name="date" required #dateModel="ngModel" [(ngModel)]="model.date">
+    </div>
+    <div class="mb-3 form-div">
+        <label for="weight" class="form-label">Weight</label>
+        <div class="alert alert-danger" *ngIf="weightModel.invalid && formSubmitted" role="alert">
+            You must enter your weight.
+        </div>
+        <input type="text" class="form-control" id="weight" name="weight" required placeholder="180" #weightModel="ngModel" [(ngModel)]="model.weight">
+    </div>
+    <div class="mb-3 form-div">
+        <label for="bloodPressure" class="form-label">Blood Pressure</label>
+        <div class="alert alert-danger" *ngIf="bloodPressureModel.invalid && formSubmitted" role="alert">
+            You must enter your blood pressure.
+        </div>
+        <input type="text" class="form-control" id="bloodPressure" name="bloodPressure" required placeholder="125/75" #bloodPressureModel="ngModel" [(ngModel)]="model.bloodPressure">
+    </div>
+    <div class="mb-3 form-div">
+        <label for="exercise" class="form-label">Exercise</label>
+        <div class="alert alert-danger" *ngIf="exerciseModel.invalid && formSubmitted" role="alert">
+            You must enter your exercise.
+        </div>
+        <input type="text" class="form-control" id="exercise" name="exercise" required placeholder="Ran 1 mile" #exerciseModel="ngModel" [(ngModel)]="model.exercise">
+    </div>
+    <div class="mb-3 form-div">
+        <label for="symptoms" class="form-label">Symptoms</label>
+        <div class="alert alert-danger" *ngIf="symptomsModel.invalid && formSubmitted" role="alert">
+            You must enter your symptoms.
+        </div>
+        <input type="text" class="form-control" id="symptoms" name="symptoms" required placeholder="Head pain" #symptomsModel="ngModel" [(ngModel)]="model.symptoms">
+    </div>
+    <div>
+        <button type="submit" class="btn btn-primary mx-2 w-25">Submit</button>
+        <button type="submit" class="btn btn-danger w-25" (click)="resetForm(noteForm.form)">Cancel</button>
+    </div>
+</form>
+<div class="mt-5 center">
+    <button type="submit" class="btn btn-primary" *ngIf="!creating && !editing" (click)="creating = true">New Note</button>
+</div>
